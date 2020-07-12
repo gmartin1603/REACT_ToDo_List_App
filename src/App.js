@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import './Todo.css';
+import Todo from './Todo'
 
-function App() {
+
+const App = () => {
+
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTodos([...todos, input]);
+    setInput('');
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="main">
+          <h1>ToDo List</h1>
+
+          <form>
+            <input value={input} onChange={e => setInput(e.target.value)} type="text" />
+            <button disabled={!input} type="submit" onClick={handleSubmit}>+</button>
+          </form>
+      <div className="todo-container">
+            {todos.map((todo) => (
+              <Todo title={todo} description={todo.description}/>
+              ))}
+      </div>
+      </div>
     </div>
   );
 }
